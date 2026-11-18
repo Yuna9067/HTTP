@@ -16,9 +16,19 @@ export function renderTickets(tickets, handlers) {
     name.className = 'ticket-name';
     name.textContent = ticket.name;
 
-    const created = document.createElement('span');
+    const created = document.createElement('time');
     created.className = 'ticket-created';
-    created.textContent = new Date(ticket.created).toLocaleString();
+
+    const createdDate = new Date(ticket.created);
+
+    created.dateTime = createdDate.toISOString();
+    created.textContent = createdDate.toLocaleString('ru-RU', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
 
     const editButton = document.createElement('button');
     editButton.type = 'button';
@@ -33,21 +43,17 @@ export function renderTickets(tickets, handlers) {
     const description = document.createElement('div');
     description.className = 'ticket-description hidden';
 
-    item.append(checkbox, name, created, editButton, deleteButton, description);
+    item.append(
+      checkbox,
+      name,
+      created,
+      editButton,
+      deleteButton,
+      description,
+    );
+
     list.append(item);
   });
 
   list.onclick = handlers.onTicketClick;
-}
-
-export function showLoader() {
-  document.querySelector('#loader').classList.remove('hidden');
-}
-
-export function hideLoader() {
-  document.querySelector('#loader').classList.add('hidden');
-}
-
-export function showError(message) {
-  alert(message);
 }

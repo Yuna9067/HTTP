@@ -2,8 +2,7 @@
 
 Приложение для управления тикетами.
 
-[![Deploy to GitHub Pages](https://github.com/Yuna9067/helpdesk/actions/workflows/deploy.yml/badge.svg)](https://github.com/Yuna9067/helpdesk/actions/workflows/deploy.yml)
-
+[![Deploy to GitHub Pages](https://github.com/Yuna9067/HTTP/actions/workflows/deploy.yml/badge.svg)](https://github.com/Yuna9067/HTTP/actions/workflows/deploy.yml)
 [Открыть приложение на GitHub Pages](https://Yuna9067.github.io/helpdesk/)
 
 ## Технологии
