@@ -8,7 +8,13 @@ import {
   deleteTicket,
 } from './api.js';
 
-import { renderTickets, showLoader, hideLoader } from './ui.js';
+import {
+  renderTickets,
+  showLoader,
+  hideLoader,
+  showError,
+} from './ui.js';
+
 import {
   openCreateModal,
   openEditModal,
@@ -16,7 +22,6 @@ import {
   closeModals,
 } from './modal.js';
 
-const ticketsList = document.querySelector('#tickets');
 const addButton = document.querySelector('#add-ticket');
 
 let tickets = [];
@@ -31,58 +36,84 @@ async function loadTickets() {
     });
   } catch (error) {
     console.error(error);
+    showError('Не удалось загрузить тикеты');
   } finally {
     hideLoader();
   }
 }
 
 async function createNewTicket(data) {
-  await createTicket({
-    id: null,
-    ...data,
-  });
+  try {
+    await createTicket({
+      id: null,
+      ...data,
+    });
 
-  closeModals();
-  await loadTickets();
+    closeModals();
+    await loadTickets();
+  } catch (error) {
+    console.error('Ошибка при создании тикета:', error);
+    showError('Не удалось сохранить тикет');
+  }
 }
 
 async function editTicket(id, data) {
-  const ticket = await getTicketById(id);
+  try {
+    const ticket = await getTicketById(id);
 
-  await updateTicket(id, {
-    ...ticket,
-    ...data,
-  });
+    await updateTicket(id, {
+      ...ticket,
+      ...data,
+    });
 
-  closeModals();
-  await loadTickets();
+    closeModals();
+    await loadTickets();
+  } catch (error) {
+    console.error('Ошибка при редактировании тикета:', error);
+    showError('Не удалось сохранить изменения');
+  }
 }
 
 async function removeTicket(id) {
-  await deleteTicket(id);
+  try {
+    await deleteTicket(id);
 
-  closeModals();
-  await loadTickets();
+    closeModals();
+    await loadTickets();
+  } catch (error) {
+    console.error('Ошибка при удалении тикета:', error);
+    showError('Не удалось удалить тикет');
+  }
 }
 
 async function toggleTicketStatus(id) {
-  const ticket = await getTicketById(id);
+  try {
+    const ticket = await getTicketById(id);
 
-  await updateTicket(id, {
-    ...ticket,
-    status: !ticket.status,
-  });
+    await updateTicket(id, {
+      ...ticket,
+      status: !ticket.status,
+    });
 
-  await loadTickets();
+    await loadTickets();
+  } catch (error) {
+    console.error('Ошибка при изменении статуса:', error);
+    showError('Не удалось изменить статус тикета');
+  }
 }
 
 async function showTicketDescription(id) {
-  const ticket = await getTicketById(id);
-  const ticketElement = document.querySelector(`[data-id="${id}"]`);
-  const description = ticketElement.querySelector('.ticket-description');
+  try {
+    const ticket = await getTicketById(id);
+    const ticketElement = document.querySelector(`[data-id="${id}"]`);
+    const description = ticketElement.querySelector('.ticket-description');
 
-  description.textContent = ticket.description;
-  description.classList.toggle('hidden');
+    description.textContent = ticket.description;
+    description.classList.toggle('hidden');
+  } catch (error) {
+    console.error('Ошибка при загрузке описания:', error);
+    showError('Не удалось загрузить описание тикета');
+  }
 }
 
 async function onTicketClick(event) {
@@ -100,8 +131,14 @@ async function onTicketClick(event) {
   }
 
   if (event.target.closest('.ticket-edit')) {
-    const ticket = await getTicketById(id);
-    openEditModal(ticket, (data) => editTicket(id, data));
+    try {
+      const ticket = await getTicketById(id);
+      openEditModal(ticket, (data) => editTicket(id, data));
+    } catch (error) {
+      console.error(error);
+      showError('Не удалось загрузить тикет');
+    }
+
     return;
   }
 

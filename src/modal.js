@@ -44,14 +44,30 @@ export function openEditModal(ticket, onSubmit) {
 }
 
 export function openDeleteModal(onConfirm) {
-  confirmDelete.onclick = onConfirm;
+  confirmDelete.onclick = () => {
+    onConfirm();
+  };
+
   confirmModal.classList.remove('hidden');
 }
 
 export function closeModals() {
+  confirmDelete.onclick = null;
   modal.classList.add('hidden');
   confirmModal.classList.add('hidden');
 }
 
 modalCancel.addEventListener('click', closeModals);
 confirmCancel.addEventListener('click', closeModals);
+
+modal.addEventListener('click', (event) => {
+  if (event.target === modal) {
+    closeModals();
+  }
+});
+
+confirmModal.addEventListener('click', (event) => {
+  if (event.target === confirmModal) {
+    closeModals();
+  }
+});

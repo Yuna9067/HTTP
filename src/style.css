@@ -26,6 +26,7 @@ body {
 
 .ticket {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 12px;
   padding: 12px;
@@ -40,13 +41,10 @@ body {
 }
 
 .ticket-description {
+  flex-basis: 100%;
   width: 100%;
   margin-top: 8px;
   color: #555;
-}
-
-.hidden {
-  display: none;
 }
 
 .modal {
@@ -91,4 +89,8 @@ body {
   padding: 8px 12px;
   background: #fff;
   border-radius: 4px;
+}
+
+.hidden {
+  display: none;
 }

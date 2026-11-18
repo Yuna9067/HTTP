@@ -7,17 +7,33 @@ export function renderTickets(tickets, handlers) {
     item.className = 'ticket';
     item.dataset.id = ticket.id;
 
-    item.innerHTML = `
-      <input type="checkbox" class="ticket-status" ${ticket.status ? 'checked' : ''}>
-      <span class="ticket-name">${ticket.name}</span>
-      <span class="ticket-created">
-        ${new Date(ticket.created).toLocaleString()}
-      </span>
-      <button class="ticket-edit" type="button">✎</button>
-      <button class="ticket-delete" type="button">✕</button>
-      <div class="ticket-description hidden"></div>
-    `;
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.className = 'ticket-status';
+    checkbox.checked = Boolean(ticket.status);
 
+    const name = document.createElement('span');
+    name.className = 'ticket-name';
+    name.textContent = ticket.name;
+
+    const created = document.createElement('span');
+    created.className = 'ticket-created';
+    created.textContent = new Date(ticket.created).toLocaleString();
+
+    const editButton = document.createElement('button');
+    editButton.type = 'button';
+    editButton.className = 'ticket-edit';
+    editButton.textContent = '✎';
+
+    const deleteButton = document.createElement('button');
+    deleteButton.type = 'button';
+    deleteButton.className = 'ticket-delete';
+    deleteButton.textContent = '✕';
+
+    const description = document.createElement('div');
+    description.className = 'ticket-description hidden';
+
+    item.append(checkbox, name, created, editButton, deleteButton, description);
     list.append(item);
   });
 
@@ -30,4 +46,8 @@ export function showLoader() {
 
 export function hideLoader() {
   document.querySelector('#loader').classList.add('hidden');
+}
+
+export function showError(message) {
+  alert(message);
 }
