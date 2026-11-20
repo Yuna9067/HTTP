@@ -91,6 +91,24 @@ body {
   border-radius: 4px;
 }
 
+.error {
+  color:#d93025;
+  margin-bottom: 12px;
+}
+
+.error.hidden {
+  display: none;
+}
+
+.form-error {
+  color:#d93025;
+  margin-bottom: 12px;
+}
+
+.form-error.hidden {
+  display: none;
+}
+
 .hidden {
   display: none;
 }

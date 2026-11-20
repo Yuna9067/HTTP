@@ -44,10 +44,7 @@ async function loadTickets() {
 
 async function createNewTicket(data) {
   try {
-    await createTicket({
-      id: null,
-      ...data,
-    });
+    await createTicket(data);
 
     closeModals();
     await loadTickets();

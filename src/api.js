@@ -28,7 +28,11 @@ export function createTicket(ticket) {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(ticket),
+    body: JSON.stringify({
+      name: ticket.name,
+      description: ticket.description,
+      status: ticket.status,
+    }),
   });
 }
 

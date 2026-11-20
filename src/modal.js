@@ -9,6 +9,32 @@ const confirmModal = document.querySelector('#confirm-modal');
 const confirmCancel = document.querySelector('#confirm-cancel');
 const confirmDelete = document.querySelector('#confirm-delete');
 
+let formError = null;
+
+function createFormError() {
+  formError = document.createElement('div');
+  formError.className = 'form-error hidden';
+  ticketForm.insertBefore(formError, ticketForm.firstChild);
+}
+
+function showFormError(message) {
+  if(!formError) {
+    createFormError();
+  }
+
+  formError.textContent = message;
+  formError.classList.remove('hidden');
+}
+
+function hideFormError() {
+  if(!formError) {
+    return;
+  }
+
+  formError.textContent = '';
+  formError.classList.add('hidden');
+}
+
 function getTicketData(defaultStatus) {
   const name = ticketName.value.trim();
   const description = ticketDescription.value.trim();
@@ -28,6 +54,10 @@ function getTicketData(defaultStatus) {
     status: defaultStatus,
   };
 }
+
+ticketName.addEventListener('input', () => {
+  ticketName.setCustomValidity('');
+})
 
 export function openCreateModal(onSubmit) {
   modalTitle.textContent = 'Добавить тикет';

@@ -1,6 +1,20 @@
+const ticketList = document.querySelector('#tickets');
+const loader = document.querySelector('#loader');
+
+export function showLoader() {
+  loader.classList.remove('hidden')
+}
+
+export function hideLoader() {
+  loader.classList.add('hidden')
+}
+
+export function showError(message) {
+    alert(message)
+}
+
 export function renderTickets(tickets, handlers) {
-  const list = document.querySelector('#tickets');
-  list.innerHTML = '';
+  ticketList.innerHTML = '';
 
   tickets.forEach((ticket) => {
     const item = document.createElement('li');
@@ -42,6 +56,7 @@ export function renderTickets(tickets, handlers) {
 
     const description = document.createElement('div');
     description.className = 'ticket-description hidden';
+    description.textContent = ticket.description ?? '';
 
     item.append(
       checkbox,
@@ -52,8 +67,8 @@ export function renderTickets(tickets, handlers) {
       description,
     );
 
-    list.append(item);
+    ticketList.append(item);
   });
 
-  list.onclick = handlers.onTicketClick;
+  ticketList.onclick = handlers.onTicketClick;
 }
